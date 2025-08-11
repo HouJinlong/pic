@@ -64,5 +64,24 @@ function clickHandler(event) {
     captureAndDownload(targetElement);
   }
 }
+function toggleSelectionMode(forceState) {
+  isSelectionMode = typeof forceState === 'boolean' ? forceState : !isSelectionMode;
+  if (isSelectionMode) {
+    console.log('进入选择模式。请点击一个元素。');
+    document.body.addEventListener('mouseover', mouseoverHandler);
+    document.body.addEventListener('mouseout', mouseoutHandler);
+    document.body.addEventListener('click', clickHandler, true);
+  } else {
+    console.log('退出选择模式。');
+    if (lastHoveredElement) {
+      lastHoveredElement.style.outline = '';
+      lastHoveredElement.style.cursor = 'default';
+      lastHoveredElement = null;
+    }
+    document.body.removeEventListener('mouseover', mouseoverHandler);
+    document.body.removeEventListener('mouseout', mouseoutHandler);
+    document.body.removeEventListener('click', clickHandler, true);
+  }
+}
 toggleSelectionMode();
 
